@@ -14,8 +14,13 @@ function! exifVim#ReadFile(filename)
   let command_output = systemlist(s:settings.command .. ' -s ' .. filename)
 
   " TODO: Check for errors
+  "
+  if g:exifVim_checkWritable
+    let tags = s:GenerateTagsWritable(command_output)
+  else
+    let tags = s:GenerateTags(command_output)
+  endif
 
-  let tags = map(command_output, 'split(v:val, ":")')
 
   " Output to buffer:
   let filename_print = ' Exiftool file: ' .. a:filename .. ' '
@@ -33,4 +38,29 @@ function! exifVim#ReadFile(filename)
 
   set filetype=exifimage  " For highlighting
   call cursor(1,1)        " Place the cursor in the begining
+endfunction
+
+" TODO: Maybe refactor. Tis looks like a mess.
+function! s:GenerateTagsWritable(data)
+  let s:writable = exifVim#utilities#getWritableTags()
+  let tags = map(a:data, function('s:GenerateWritableTag'))
+  return tags
+endfunction
+
+function! s:GenerateWritableTag(index, line)
+  let line = split(a:line, ':')
+  let tag = line[0]
+  let value = line[1]
+  let tag_cleaned = trim(tag)
+
+  if index(s:writable, tag_cleaned) >= 0
+    return ['   ' .. tag, value]
+  else
+    return ['[X]' .. tag, value]
+  endif
+endfunction
+
+function s:GenerateTags(data)
+  let tags = map(a:data, 'split(v:val, ":")')
+  return tags
 endfunction
