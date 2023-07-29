@@ -1,5 +1,5 @@
 let s:settings = #{
-      \ command: 'exiftool',
+      \ command: g:exifVim_backend,
       \ delimiter: '->',
       \ }
 

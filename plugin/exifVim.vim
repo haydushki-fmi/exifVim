@@ -6,6 +6,15 @@ let g:loaded_exifVim = '0.0.1' " version number
 let s:keepcpo = &cpo
 set cpo&vim
 
+if !exists('g:exifVim_backend')
+  let g:exifVim_backend = 'exiftool'
+endif
+
+if !exists('g:exifVim_checkWritable')
+  let g:exifVim_checkWritable = 1 " When this is turned on, it's a bit slower
+endif
+
+
 " NOTE: Exiftool supports many file formats but to get started just use .png
 " and .jpg
 " TODO: Make regex for .jpg_original and stuff
