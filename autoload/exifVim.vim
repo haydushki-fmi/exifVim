@@ -1,6 +1,7 @@
 let s:settings = #{
       \ command: g:exifVim_backend,
       \ delimiter: '->',
+      \ firstTagLine: 5
       \ }
 
 function! exifVim#ReadFile(filename)
@@ -11,7 +12,8 @@ function! exifVim#ReadFile(filename)
 
   let filename = shellescape(a:filename)
 
-  let command_output = systemlist(s:settings.command .. ' -s ' .. filename)
+  " TODO: Excluding Directory tag is a temporary workaround for writing files
+  let command_output = systemlist(s:settings.command .. ' -s -x Directory ' .. filename)
 
   " TODO: Check for errors
   "
@@ -63,4 +65,40 @@ endfunction
 function s:GenerateTags(data)
   let tags = map(a:data, 'split(v:val, ":")')
   return tags
+endfunction
+
+" Writing a file
+
+function! exifVim#WriteFile(filename)
+  let endLine = line('$')
+  let tagsString = ""
+  let lineNumber = s:settings.firstTagLine
+
+  while lineNumber <= endLine
+    let line = getline(lineNumber)
+
+    if line != ''
+      let line = split(line, s:settings.delimiter)
+
+      " Check if tag isn't marked as non-writable
+      if line[0][0] != '['
+        let tagName = trim(line[0])
+        let tagValue =  trim(line[1])
+
+        let tagsString = tagsString .. ' -' .. tagName .. '="' .. tagValue .. '"'
+      endif
+    endif
+
+    let lineNumber += 1
+  endwhile
+
+  let filename = shellescape(a:filename)
+  let output = system(s:settings.command .. tagsString .. ' ' .. filename)
+
+  if v:shell_error
+    echoerr 'There was an error executing the ' .. s:settings.command .. 'command: ' .. output
+    return
+  endif
+
+  set nomodified
 endfunction
