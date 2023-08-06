@@ -96,8 +96,14 @@ function! exifVim#WriteFile(filename)
     let lineNumber += 1
   endwhile
 
+  if confirm("Overwrite original file?", "&Yes\n&No", 2) == 1
+    let overwriteOriginal = ' -overwrite_original'
+  else
+    let overwriteOriginal = ''
+  endif
+
   let filename = shellescape(a:filename)
-  let output = systemlist(s:settings.command .. tagsString .. ' ' .. filename)
+  let output = systemlist(s:settings.command .. tagsString .. overwriteOriginal .. ' ' .. filename)
 
   echomsg output
   if v:shell_error
