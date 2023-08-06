@@ -12,8 +12,7 @@ function! exifVim#ReadFile(filename)
 
   let filename = shellescape(a:filename)
 
-  " TODO: Excluding Directory tag is a temporary workaround for writing files
-  let command_output = systemlist(s:settings.command .. ' -s -x Directory ' .. filename)
+  let command_output = systemlist(s:settings.command .. ' -s ' .. filename)
 
   " TODO: Check for errors
   "
@@ -74,16 +73,21 @@ function! exifVim#WriteFile(filename)
   let tagsString = ""
   let lineNumber = s:settings.firstTagLine
 
+  " When directory is the current directory, skip it
+  let [dirLine, dirLineString] = exifVim#utilities#GetTagLineByName('Directory')
+  let [dirTag, dirValue] = exifVim#utilities#ParseTagLine(dirLineString, s:settings.delimiter)
+  if(dirValue == '.')
+    let lineToSkip = dirLine
+  else
+    let lineToSkip = -1
+  endif
+
   while lineNumber <= endLine
     let line = getline(lineNumber)
 
-    if line != ''
-      let line = split(line, s:settings.delimiter)
-
-      " Check if tag isn't marked as non-writable
-      if line[0][0] != '['
-        let tagName = trim(line[0])
-        let tagValue =  trim(line[1])
+    if line != '' && lineNumber != lineToSkip
+      if line[0] != '['
+        let [tagName, tagValue] = exifVim#utilities#ParseTagLine(line, s:settings.delimiter)
 
         let tagsString = tagsString .. ' -' .. tagName .. '="' .. tagValue .. '"'
       endif
