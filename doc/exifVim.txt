@@ -1,4 +1,4 @@
-*exifVim.txt*	TODO
+*exifVim.txt*	Edit image files metadata using ExifTool
 
 ==============================================================================
 CONTENTS                                        *exifVim*   *exifVim-contents*
@@ -46,13 +46,74 @@ https://github.com/haydushki-fmi/exifVim/releases.
 USAGE                                                          *exifVim-usage*
 
 TODO
+When editing a .jpg or .png file you'd see a buffer looking like this:
 
+>
+    #############################
+     Exiftool file: testfile.png 
+    #############################
+    
+    [X]ExifToolVersion                 -> 12.60
+       FileName                        -> testfile.png
+    [X]FileSize                        -> 710 kB
+       FileModifyDate                  -> 2023
+    [X]FileAccessDate                  -> 2023
+    [X]FileInodeChangeDate             -> 2023
+       FilePermissions                 -> -rw-r--r--
+    [X]FileType                        -> PNG
+    [X]FileTypeExtension               -> png
+    [X]MIMEType                        -> image/png
+       ImageWidth                      -> 1274
+       ImageHeight                     -> 1274
+       BitDepth                        -> 8
+    [X]ColorType                       -> RGB with Alpha
+       Compression                     -> Deflate/Inflate
+    [X]Filter                          -> Adaptive
+    [X]Interlace                       -> Noninterlaced
+    [X]SignificantBits                 -> 8 8 8 8
+       ExifByteOrder                   -> Big-endian (Motorola, MM)
+       XResolution                     -> 72
+       YResolution                     -> 72
+       ResolutionUnit                  -> inches
+       YCbCrPositioning                -> Centered
+       ImageSize                       -> 1274x1274
+    [X]Megapixels                      -> 1.6
+<
+
+This is the file metadata read with ExifTool. The [X] in front of tag names
+indicate that the tag is not writable. See |g:exifVim_checkWritable|. 
+
+The 'Exiftool file' header indicates the filename which will be used to run
+Exiftool.
+
+You may change tag values by editing the buffer. Adding new tags is done by
+inserting a new line with a valid tag name, followed by '->' and the desired
+value.
+
+TODO: renaming
 
 ==============================================================================
 SETTINGS                                                    *exifVim-settings*
 
-TODO
+                                                          *g:exifVim_backend*
+>
+    let g:exifVim_backend = 'exiftool_executable'
+<
+Default value: 'exiftool'
 
+This specifies the executable for ExifTool which the plugin will use to read
+and write image metadata.
+
+                                                    *g:exifVim_checkWritable*
+>
+    let g:exifVim_checkWritable = 0
+<
+Default value: 1
+
+This setting allows you to toggle on and off checks for which tags are
+writable by ExifTool. By default it is turned on. Non-writable tags are marked
+with '[X]' in the begining of the row. They are also hightlinghted
+differently.
 
 ==============================================================================
 INTERNALS                                                  *exifVim-internals*
