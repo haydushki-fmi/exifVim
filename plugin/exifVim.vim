@@ -14,6 +14,8 @@ if !exists('g:exifVim_checkWritable')
   let g:exifVim_checkWritable = 1 " When this is turned on, it's a bit slower
 endif
 
+command! -nargs=1 -complete=customlist,exifVim#utilities#completeTagName ExifVimAddTag call exifVim#AddTag(<f-args>)
+
 
 " NOTE: Exiftool supports many file formats but to get started just use .png
 " and .jpg

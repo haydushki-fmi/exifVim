@@ -113,3 +113,14 @@ function! exifVim#WriteFile(filename)
 
   set nomodified
 endfunction
+
+function! exifVim#AddTag(tagname)
+  let endLine = getline('$')->split(s:settings.delimiter)
+  let spacesCount = strdisplaywidth(endLine[0]) - strdisplaywidth(a:tagname) - 3
+  call append(line('$'),
+        \ '   ' .. a:tagname ..
+        \ repeat(' ', spacesCount) ..
+        \ s:settings.delimiter .. ' '
+        \)
+  normal! G$
+endfunction

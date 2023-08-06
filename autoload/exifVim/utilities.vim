@@ -9,6 +9,10 @@ function! exifVim#utilities#getWritableTags()
   return tags
 endfunction
 
+function! exifVim#utilities#completeTagName(ArgLead, CmdLine, CursorPos)
+  return filter(exifVim#utilities#getWritableTags(), 'v:val =~ a:ArgLead')
+endfunction
+
 " Search for tagname and return line number and string.
 function! exifVim#utilities#GetTagLineByName(tagname)
   echo a:tagname
