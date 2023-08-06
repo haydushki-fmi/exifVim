@@ -93,10 +93,11 @@ function! exifVim#WriteFile(filename)
   endwhile
 
   let filename = shellescape(a:filename)
-  let output = system(s:settings.command .. tagsString .. ' ' .. filename)
+  let output = systemlist(s:settings.command .. tagsString .. ' ' .. filename)
 
+  echomsg output
   if v:shell_error
-    echoerr 'There was an error executing the ' .. s:settings.command .. 'command: ' .. output
+    echoerr 'There was an error executing the ' .. s:settings.command .. ' command. See messages for program output.'
     return
   endif
 
