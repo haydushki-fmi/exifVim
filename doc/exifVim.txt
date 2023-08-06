@@ -45,7 +45,6 @@ https://github.com/haydushki-fmi/exifVim/releases.
 ==============================================================================
 USAGE                                                          *exifVim-usage*
 
-TODO
 When editing a .jpg or .png file you'd see a buffer looking like this:
 
 >
@@ -86,9 +85,21 @@ indicate that the tag is not writable. See |g:exifVim_checkWritable|.
 The 'Exiftool file' header indicates the filename which will be used to run
 Exiftool.
 
-You may change tag values by editing the buffer. Adding new tags is done by
-inserting a new line with a valid tag name, followed by '->' and the desired
-value.
+You may change tag values by editing the buffer.
+
+
+Adding New tags ~
+                                                                *adding-tags*
+If you wish to add a new tag there are two options:
+Either you manually insert a new line with a valid tag name, followed by '->'
+and the desired tag value or you use |:ExifVimAddTag| command.
+
+                                                             *:ExifVimAddTag*
+:ExifVimAddTag [name]
+                      Inserts [name] at the end of the file as a new tag. Name
+                      can be tab-completed from a list of all writable tag
+                      names.
+
 
 TODO: renaming
 
