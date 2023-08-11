@@ -1,7 +1,9 @@
 let s:settings = #{
       \ command: g:exifVim_backend,
       \ delimiter: '->',
-      \ firstTagLine: 5
+      \ firstTagLine: 5,
+      \ nonWritableMarker: '[X]',
+      \ writableSpace: repeat(' ', 3),
       \ }
 
 function! exifVim#ReadFile(filename)
@@ -55,9 +57,9 @@ function! s:GenerateWritableTag(index, line)
   let tag_cleaned = trim(tag)
 
   if index(s:writable, tag_cleaned) >= 0
-    return ['   ' .. tag, value]
+    return [s:settings.writableSpace .. tag, value]
   else
-    return ['[X]' .. tag, value]
+    return [s:settings.nonWritableMarker .. tag, value]
   endif
 endfunction
 
