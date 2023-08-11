@@ -34,3 +34,12 @@ function! exifVim#utilities#ParseTagLine(line, delimiter)
   let tagValue =  trim(line[1])
   return [tagName, tagValue]
 endfunction
+
+" Display confirmation dialog and return string for overwriting original file.
+function! exifVim#utilities#ConfirmOverwrite()
+  if confirm("Overwrite original file?", "&Yes\n&No", 2) == 1
+    return ' -overwrite_original'
+  else
+    return ''
+  endif
+endfunction

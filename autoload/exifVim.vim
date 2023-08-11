@@ -105,11 +105,7 @@ function! exifVim#WriteFile(filename)
     let lineNumber += 1
   endwhile
 
-  if confirm("Overwrite original file?", "&Yes\n&No", 2) == 1
-    let overwriteOriginal = ' -overwrite_original'
-  else
-    let overwriteOriginal = ''
-  endif
+  let overwriteOriginal = exifVim#utilities#ConfirmOverwrite()
 
   let filename = shellescape(a:filename)
   let output = systemlist(s:settings.command .. tagsString .. overwriteOriginal .. ' ' .. filename)
@@ -137,11 +133,7 @@ endfunction
 
 " Delete all tags command {{{1
 function! exifVim#DeleteAllTags()
-  if confirm("Overwrite original file?", "&Yes\n&No", 2) == 1
-    let overwriteOriginal = ' -overwrite_original'
-  else
-    let overwriteOriginal = ''
-  endif
+  let overwriteOriginal = exifVim#utilities#ConfirmOverwrite()
 
   let filename = shellescape(expand('%'))
   let program_output = systemlist(s:settings.command .. ' -all:all= '.. overwriteOriginal .. ' ' .. filename)
