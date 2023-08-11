@@ -19,8 +19,12 @@ function! exifVim#ReadFile(filename)
 
   let command_output = systemlist(s:settings.command .. ' -s ' .. filename)
 
-  " TODO: Check for errors
-  "
+  if v:shell_error
+    echomsg command_output
+    echoerr 'Unable to read file. There was an error executing the ' .. s:settings.command .. ' command. See messages for program output.'
+    return
+  endif
+
   if g:exifVim_checkWritable
     let tags = s:GenerateTagsWritable(command_output)
   else
