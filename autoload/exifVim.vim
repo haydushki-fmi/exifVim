@@ -1,3 +1,5 @@
+" vim: foldmethod=marker
+
 let s:settings = #{
       \ command: g:exifVim_backend,
       \ delimiter: '->',
@@ -6,6 +8,7 @@ let s:settings = #{
       \ writableSpace: repeat(' ', 3),
       \ }
 
+" Read file {{{1
 function! exifVim#ReadFile(filename)
   if !filereadable(a:filename)
     echoerr "File " .. a:filename .. " could not be read."
@@ -43,6 +46,7 @@ function! exifVim#ReadFile(filename)
   call cursor(1,1)        " Place the cursor in the begining
 endfunction
 
+" Helper functions for reading file {{{2
 " TODO: Maybe refactor. Tis looks like a mess.
 function! s:GenerateTagsWritable(data)
   let s:writable = exifVim#utilities#getWritableTags()
@@ -68,8 +72,7 @@ function s:GenerateTags(data)
   return tags
 endfunction
 
-" Writing a file
-
+" Write file {{{1
 function! exifVim#WriteFile(filename)
   let endLine = line('$')
   let tagsString = ""
@@ -116,6 +119,7 @@ function! exifVim#WriteFile(filename)
   set nomodified
 endfunction
 
+" Add tag command {{{1
 function! exifVim#AddTag(tagname)
   let endLine = getline('$')->split(s:settings.delimiter)
   let spacesCount = strdisplaywidth(endLine[0]) - strdisplaywidth(a:tagname) - 3
