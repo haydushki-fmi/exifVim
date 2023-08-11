@@ -88,7 +88,7 @@ Exiftool.
 You may change tag values by editing the buffer.
 
 
-Adding New tags ~
+Adding new tags ~
                                                                 *adding-tags*
 If you wish to add a new tag there are two options:
 Either you manually insert a new line with a valid tag name, followed by '->'
@@ -102,6 +102,18 @@ and the desired tag value or you use |:ExifVimAddTag| command.
 
 
 TODO: renaming
+
+Deleting tags ~
+                                                              *deleting-tags*
+If you wish to delete a tag you have to delete it's value. Deleting the whole
+row would leave the tag unchanged.
+
+If you wish to delete all tags, see |:ExifVimDeleteAllTags| command.
+
+                                                      *:ExifVimDeleteAllTags*
+:ExifVimDeleteAllTags
+                      Removes all tags from the image. Please note that not
+                      all tags are removable, e.g. FileName.
 
 ==============================================================================
 SETTINGS                                                    *exifVim-settings*
