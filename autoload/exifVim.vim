@@ -134,3 +134,23 @@ function! exifVim#AddTag(tagname)
         \)
   normal! G$
 endfunction
+
+" Delete all tags command {{{1
+function! exifVim#DeleteAllTags()
+  if confirm("Overwrite original file?", "&Yes\n&No", 2) == 1
+    let overwriteOriginal = ' -overwrite_original'
+  else
+    let overwriteOriginal = ''
+  endif
+
+  let filename = shellescape(expand('%'))
+  let program_output = systemlist(s:settings.command .. ' -all:all= '.. overwriteOriginal .. ' ' .. filename)
+
+  echomsg program_output
+  if v:shell_error
+    echoerr 'There was an error executing the ' .. s:settings.command .. ' command. See messages for program output.'
+    return
+  endif
+
+  set nomodified
+endfunction

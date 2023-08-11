@@ -15,6 +15,7 @@ if !exists('g:exifVim_checkWritable')
 endif
 
 command! -nargs=1 -complete=customlist,exifVim#utilities#completeTagName ExifVimAddTag call exifVim#AddTag(<f-args>)
+command! ExifVimDeleteAllTags call exifVim#DeleteAllTags()
 
 
 " NOTE: Exiftool supports many file formats but to get started just use .png
