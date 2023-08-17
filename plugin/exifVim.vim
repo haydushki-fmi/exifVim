@@ -20,12 +20,15 @@ command! ExifVimDeleteAllTags call exifVim#DeleteAllTags()
 
 " NOTE: Exiftool supports many file formats but to get started just use .png
 " and .jpg
-" TODO: Make regex for .jpg_original and stuff
 autocmd BufReadCmd *.png call exifVim#ReadFile(expand('<afile>'))
 autocmd BufWriteCmd *.png call exifVim#WriteFile(expand('<afile>'))
+autocmd BufReadCmd *.png_original call exifVim#ReadFile(expand('<afile>'))
+autocmd BufWriteCmd *.png_original call exifVim#WriteFile(expand('<afile>'))
 
 autocmd BufReadCmd *.jpg call exifVim#ReadFile(expand('<afile>'))
 autocmd BufWriteCmd *.jpg call exifVim#WriteFile(expand('<afile>'))
+autocmd BufReadCmd *.jpg_original call exifVim#ReadFile(expand('<afile>'))
+autocmd BufWriteCmd *.jpg_original call exifVim#WriteFile(expand('<afile>'))
 
 let &cpo = s:keepcpo
 unlet s:keepcpo
