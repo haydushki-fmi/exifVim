@@ -10,6 +10,10 @@ if !exists('g:exifVim_backend')
   let g:exifVim_backend = 'exiftool'
 endif
 
+if !exists('g:exifVim_backend_directory')
+  let g:exifVim_backend_directory = ''
+endif
+
 if !exists('g:exifVim_checkWritable')
   let g:exifVim_checkWritable = 1 " When this is turned on, it's a bit slower
 endif

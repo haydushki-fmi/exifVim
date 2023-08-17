@@ -1,7 +1,7 @@
 " vim: foldmethod=marker
 
 let s:settings = #{
-      \ command: g:exifVim_backend,
+      \ command: g:exifVim_backend_directory .. g:exifVim_backend,
       \ delimiter: '->',
       \ firstTagLine: 5,
       \ nonWritableMarker: '[X]',

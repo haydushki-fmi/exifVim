@@ -127,6 +127,15 @@ Default value: 'exiftool'
 This specifies the executable for ExifTool which the plugin will use to read
 and write image metadata.
 
+                                                *g:exifVim_backend_directory*
+>
+    let g:exifVim_backend_directory = '/path/to/executable/'
+<
+Default value: ''
+
+This specifies the path where the plugin will look for the executable to use.
+NOTE that the path must end with a trailing slash.
+
                                                     *g:exifVim_checkWritable*
 >
     let g:exifVim_checkWritable = 0
