@@ -6,7 +6,6 @@ CONTENTS                                        *exifVim*   *exifVim-contents*
     Installation................................: |exifVim-installation|
     Usage.......................................: |exifVim-usage|
     Settings....................................: |exifVim-settings|
-    Internals...................................: |exifVim-internals|
     Issues......................................: |exifVim-issues|
 
 
@@ -48,12 +47,13 @@ USAGE                                                          *exifVim-usage*
 When editing a .jpg or .png file you'd see a buffer looking like this:
 
 >
-    #############################
-     Exiftool file: testfile.png 
-    #############################
-    
+    ##############################
+    Read from file: testfile.png
+    ##############################
+
     [X]ExifToolVersion                 -> 12.60
        FileName                        -> testfile.png
+       Directory                       -> .
     [X]FileSize                        -> 710 kB
        FileModifyDate                  -> 2023
     [X]FileAccessDate                  -> 2023
@@ -101,8 +101,6 @@ and the desired tag value or you use |:ExifVimAddTag| command.
                       names.
 
 
-TODO: renaming
-
 Deleting tags ~
                                                       *exifVim-deleting-tags*
 If you wish to delete a tag you have to delete it's value. Deleting the whole
@@ -114,6 +112,25 @@ If you wish to delete all tags, see |:ExifVimDeleteAllTags| command.
 :ExifVimDeleteAllTags
                       Removes all tags from the image. Please note that not
                       all tags are removable, e.g. FileName.
+
+
+Renaming a file ~
+                                                      *exifVim-renaming-file*
+If you wish to rename a file using ExifTool then you must change the value of
+the correspoding tag 'FileName'.
+NOTE that if you were to change the filename in the header nothing would
+happen as it only displays information about which file the tags were read
+from.
+
+
+Moving a file ~
+                                                        *exifVim-moving-file*
+If you wish to move a file using ExifTool then you must change the value of
+the correspoding tag 'Directory'.
+NOTE that if you were to change the file path in the header nothing would
+happen as it only displays information about which file the tags were read
+from.
+
 
 ==============================================================================
 SETTINGS                                                    *exifVim-settings*
@@ -127,6 +144,7 @@ Default value: 'exiftool'
 This specifies the executable for ExifTool which the plugin will use to read
 and write image metadata.
 
+
                                                 *g:exifVim_backend_directory*
 >
     let g:exifVim_backend_directory = '/path/to/executable/'
@@ -135,6 +153,7 @@ Default value: ''
 
 This specifies the path where the plugin will look for the executable to use.
 NOTE that the path must end with a trailing slash.
+
 
                                                     *g:exifVim_checkWritable*
 >
@@ -147,10 +166,6 @@ writable by ExifTool. By default it is turned on. Non-writable tags are marked
 with '[X]' in the begining of the row. They are also hightlinghted
 differently.
 
-==============================================================================
-INTERNALS                                                  *exifVim-internals*
-
-TODO
 
 ==============================================================================
 ISSUES                                                        *exifVim-issues*
