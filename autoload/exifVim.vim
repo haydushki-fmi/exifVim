@@ -33,7 +33,7 @@ function! exifVim#ReadFile(filename)
 
 
   " Output to buffer:
-  let filename_print = ' Exiftool file: ' .. a:filename .. ' '
+  let filename_print = ' Read from file: ' .. a:filename .. ' '
   let filename_len = strdisplaywidth(filename_print)
 
   call append(0, [
